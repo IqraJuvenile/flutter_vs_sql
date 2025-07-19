@@ -1,5 +1,6 @@
-//import 'package:flutter_vs_sql/widgets/input_decoration.dart';
+//-- import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_vs_sql/widgets/input_decoration.dart';
 
 class LoginScreen extends StatelessWidget {
   //const LoginScreen({Key? key}) : super(key: key);
@@ -25,10 +26,10 @@ class LoginScreen extends StatelessWidget {
         Container(
           margin: EdgeInsets.symmetric(horizontal: 30),
           width: double.infinity,
-          height: 300,
+          //height: 300,
           decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(25),
+            color: const Color.fromARGB(255, 255, 255, 255),
+            borderRadius: BorderRadius.circular(50),
             boxShadow: const [
               BoxShadow(
                 color: Colors.black12,
@@ -47,39 +48,57 @@ class LoginScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       TextFormField(
+                        keyboardType: TextInputType.emailAddress,
                         autocorrect: false,
-                        decoration: 
-                      //     enabledBorder: UnderlineInputBorder(
-                      //       borderSide: BorderSide(color: Colors.deepPurple),
-                      //     ),
-                      //     focusedBorder: OutlineInputBorder(
-                      //       borderSide: BorderSide(
-                      //         color: Colors.deepPurple,
-                      //         width: 2,
-                      //       ),
-                      //     ),
-                      //     hintText: 'example@gmail.com',
-                      //     labelText: 'coreection email',
-                      //     prefixIcon: Icon(Icons.alternate_email),
-                      //   ),
-                      // ),
+                        decoration: InputDecorations.inputDecoration(
+                          hintext: 'example@gmail.com',
+                          labeltext: 'Type email',
+                          icono: Icon(Icons.alternate_email_rounded),
+                        ),
+                        validator: (value) {
+                          String pattern =
+                              r'^(?:(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).{8,}|[\w\.-]+@([\w-]+\.)+[\w-]{2,4}|[A-Za-z ]{2,})$';
+
+                          RegExp regExp = RegExp(pattern);
+                          return regExp.hasMatch(value ?? '')
+                              ? null
+                              : 'Plesae email correction';
+                        },
+                      ),
                       SizedBox(height: 30),
                       TextFormField(
                         autocorrect: false,
-                        decoration: InputDecoration(
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.deepPurple),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.deepPurple,
-                              width: 2,
-                            ),
-                          ),
-                          hintText: '************',
-                          labelText: 'coreection Password',
-                          prefixIcon: Icon(Icons.lock_outline),
+                        decoration: InputDecorations.inputDecoration(
+                          hintext: '************',
+                          labeltext: 'Type Password',
+                          icono: Icon(Icons.lock_outline),
                         ),
+                        validator: (value) {
+                          return (value != null && value.length >= 6)
+                              ? null
+                              : 'Please do correct';
+                        },
+                      ),
+                      SizedBox(height: 30),
+                      MaterialButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        disabledColor: Colors.grey,
+                        color: Colors.deepPurple,
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 60,
+                            vertical: 15,
+                          ),
+                          child: Text(
+                            'SignIn',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.pushReplacementNamed(context, 'home');
+                        },
                       ),
                     ],
                   ),
